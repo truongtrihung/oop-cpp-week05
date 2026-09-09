@@ -6,6 +6,7 @@ bool checkInputofStudents(int n);
 int main() {
     int n;
     float score[20];
+    float sum = 0; 
     
     cout << "How many students? ";
     cin >> n;
@@ -27,6 +28,7 @@ int main() {
             cout << "Invalid score! Please enter a value from 0 to 10: ";
             cin >> score[i];
         }
+        sum += score[i]; 
     }
 
     cout << endl;
@@ -34,7 +36,9 @@ int main() {
     int pass = 0;
     int fail = 0;
     int excellent = 0;
+    
     float max_score = score[0];
+    float second_max = -1; 
     float min_score = score[0];
 
     cout << "===== CLASSIFICATION =====" << endl;
@@ -64,14 +68,16 @@ int main() {
         }
 
         if (score[i] > max_score) {
-            max_score = score[i];
+            second_max = max_score; 
+            max_score = score[i];   
         }
+        else if (score[i] < max_score && score[i] > second_max) {
+            second_max = score[i];   
+        }
+
         if (score[i] < min_score) {
             min_score = score[i];
         }
-
-        cout << endl;
-
     }
 
     cout << endl;
@@ -79,10 +85,18 @@ int main() {
     cout << "=== STATISTIC ===" << endl;
     cout << "Passed: " << pass << " students" << endl;
     cout << "Failed: " << fail << " students" << endl;
-    cout << "Highest score: " << max_score << endl;
-    cout << "Lowest score : " << min_score << endl;
     cout << "Excellent students: " << excellent << endl;
+    cout << "Highest score: " << max_score << endl;
     
+    if (second_max != -1) {
+        cout << "Second highest score: " << second_max << endl;
+    } else {
+        cout << "Second highest score: N/A (All students have the same score)" << endl;
+    }
+    cout << "Lowest score : " << min_score << endl;
+    
+    cout << endl;
+
     float a, b;
     int count_in_range = 0;
 
@@ -96,9 +110,21 @@ int main() {
             count_in_range++;
         }
     }
-
     cout << "Students in range: " << count_in_range << endl;
+    
+    cout << endl;
 
+    float average = sum / n; 
+    cout << "Average score: " << average << endl;
+    cout << endl;
+
+    cout << "Students above average:" << endl;
+    for (int i = 0; i < n; i++) {
+        if (score[i] > average) { 
+            cout << "Student " << i + 1 << ": " << score[i] << endl;
+        }
+    }
+        
     return 0;
 }
 
