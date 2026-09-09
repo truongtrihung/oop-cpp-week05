@@ -91,15 +91,15 @@ int main() {
     if (second_max != -1) {
         cout << "Second highest score: " << second_max << endl;
     } else {
-        cout << "Second highest score: N/A (All students have the same score)" << endl;
+        cout << "Second highest score: N/A" << endl;
     }
     cout << "Lowest score : " << min_score << endl;
     
     cout << endl;
 
+    // Count students in a score range 
     float a, b;
     int count_in_range = 0;
-
     cout << "Enter minimum score: ";
     cin >> a;
     cout << "Enter maximum score: ";
@@ -114,6 +114,7 @@ int main() {
     
     cout << endl;
 
+    // Find students above average
     float average = sum / n; 
     cout << "Average score: " << average << endl;
     cout << endl;
@@ -123,6 +124,28 @@ int main() {
         if (score[i] > average) { 
             cout << "Student " << i + 1 << ": " << score[i] << endl;
         }
+    }
+    
+    cout << endl;
+
+    // Search for score
+    float score_to_search;
+    bool found = false;
+
+    cout << "Enter score to search: ";
+    cin >> score_to_search;
+    cout << endl;
+
+    cout << "Found at:" << endl;
+    for (int i = 0; i < n; i++) {
+        if (score[i] == score_to_search) {
+            cout << "Student " << i + 1 << endl;
+            found = true;
+        }
+    }
+
+    if (!found) {
+        cout << "No student has this score." << endl;
     }
         
     return 0;
