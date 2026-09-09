@@ -9,7 +9,7 @@ int main() {
     
     cout << "How many students? ";
     cin >> n;
-    
+
     while (checkInputofStudents(n) == false) {
         cout << "Invalid input: " << endl; 
         cout << "Invalid number of students!" << endl;
@@ -33,6 +33,7 @@ int main() {
 
     int pass = 0;
     int fail = 0;
+    int excellent = 0;
     float max_score = score[0];
     float min_score = score[0];
 
@@ -43,6 +44,7 @@ int main() {
         if (score[i] >= 9 && score[i] <= 10) {
             cout << "Excellent" << endl;
             pass++;
+            excellent++;
         }
         else if (score[i] >= 8 && score[i] < 9) {
             cout << "Very Good" << endl;
@@ -67,6 +69,9 @@ int main() {
         if (score[i] < min_score) {
             min_score = score[i];
         }
+
+        cout << endl;
+
     }
 
     cout << endl;
@@ -76,6 +81,7 @@ int main() {
     cout << "Failed: " << fail << " students" << endl;
     cout << "Highest score: " << max_score << endl;
     cout << "Lowest score : " << min_score << endl;
+    cout << "Excellent students: " << excellent << endl;
         
     return 0;
 }
