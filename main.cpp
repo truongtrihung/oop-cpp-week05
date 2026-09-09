@@ -33,22 +33,34 @@ int main() {
 
     int pass = 0;
     int fail = 0;
-
     float max_score = score[0];
     float min_score = score[0];
 
-    cout << "===== STUDENT SCORES =====" << endl;
+    cout << "===== CLASSIFICATION =====" << endl;
     for (int i = 0; i < n; i++) {
-        cout << "Student " << i + 1 << ": " << score[i];
+        cout << "Student " << i + 1 << ": " << score[i] << " -> ";
         
-        if (score[i] >= 5){
-            cout << " --> PASS" << endl;
+        if (score[i] >= 9 && score[i] <= 10) {
+            cout << "Excellent" << endl;
             pass++;
         }
-        else {
-            cout << " --> FAIL" << endl;
+        else if (score[i] >= 8 && score[i] < 9) {
+            cout << "Very Good" << endl;
+            pass++;
+        }
+        else if (score[i] >= 6.5 && score[i] < 8) {
+            cout << "Good" << endl;
+            pass++;
+        }
+        else if (score[i] >= 5 && score[i] < 6.5) {
+            cout << "Average" << endl;
+            pass++;
+        }
+        else { 
+            cout << "Fail" << endl;
             fail++;
         }
+
         if (score[i] > max_score) {
             max_score = score[i];
         }
@@ -64,6 +76,8 @@ int main() {
     cout << "Failed: " << fail << " students" << endl;
     cout << "Highest score: " << max_score << endl;
     cout << "Lowest score : " << min_score << endl;
+        
+    return 0;
 }
 
 bool checkInputofStudents(int n) {
