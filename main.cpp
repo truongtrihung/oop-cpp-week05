@@ -82,7 +82,23 @@ int main() {
     cout << "Highest score: " << max_score << endl;
     cout << "Lowest score : " << min_score << endl;
     cout << "Excellent students: " << excellent << endl;
-        
+    
+    float a, b;
+    int count_in_range = 0;
+
+    cout << "Enter minimum score: ";
+    cin >> a;
+    cout << "Enter maximum score: ";
+    cin >> b;
+
+    for (int i = 0; i < n; i++) {
+        if (score[i] >= a && score[i] <= b) {
+            count_in_range++;
+        }
+    }
+
+    cout << "Students in range: " << count_in_range << endl;
+
     return 0;
 }
 
