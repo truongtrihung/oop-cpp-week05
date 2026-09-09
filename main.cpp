@@ -31,16 +31,25 @@ int main() {
 
     cout << endl;
 
+    int pass = 0;
+    int fail = 0;
+
     cout << "===== STUDENT SCORES =====" << endl;
     for (int i = 0; i < n; i++) {
         cout << "Student " << i + 1 << ": " << score[i];
         if (score[i] >= 5){
             cout << " --> PASS" << endl;
+            pass++;
         }
         else if (score[i] < 5){
             cout << " --> FAIL" << endl;
+            fail++;
         }
     }
+        cout << "===STATISTIC===" << endl;
+        cout << "Passed: " << pass << " students" << endl;
+        cout << "Failed: " << fail << " students" << endl;
+        
     return 0;
 }
 
