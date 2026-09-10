@@ -166,7 +166,7 @@ int main() {
         
     cout << endl;
 
-    // === PHẦN BỔ SUNG BÀI 7: TÌM HỌC SINH TRƯỢT ĐẦU TIÊN ===
+    // === PHẦN BÀI 7: TÌM HỌC SINH TRƯỢT ĐẦU TIÊN ===
     bool has_failing = false;
 
     for (int i = 0; i < n; i++) {
@@ -174,12 +174,28 @@ int main() {
             cout << "First failing student:" << endl;
             cout << "Student " << i + 1 << ": " << score[i] << endl;
             has_failing = true;
-            break; // Thoát vòng lặp ngay lập tức khi tìm thấy người đầu tiên
+            break; 
         }
     }
 
     if (has_failing == false) {
         cout << "All students pass!" << endl;
+    }
+
+    cout << endl;
+
+    // === PHẦN BỔ SUNG BÀI 8: SO SÁNH CÁC HỌC SINH KẾ CẬN ===
+    cout << "=== ADJACENT COMPARISON ===" << endl;
+    bool has_improvement = false;
+    for (int i = 1; i < n; i++) {
+        if (score[i] > score[i - 1]) {
+            cout << "Student " << i + 1 << " improved compared to Student " << i << endl;
+            has_improvement = true;
+        }
+    }
+    
+    if (!has_improvement) {
+        cout << "No student has a higher score than the previous one." << endl;
     }
 
     return 0;
