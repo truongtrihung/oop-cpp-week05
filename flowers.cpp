@@ -210,6 +210,18 @@ int main() {
     cout << "\n[Task 13] Total stock value (price * qty) of all flowers: " << totalValue << endl;
 
 
+    int maxValIdx = 0;
+    double maxVal = flowers[0].price * flowers[0].quantity;
+    for (int i = 1; i < n; i++) {
+        double currentVal = flowers[i].price * flowers[i].quantity;
+        if (currentVal > maxVal) {
+            maxVal = currentVal;
+            maxValIdx = i;
+        }
+    }
+    cout << "[Task 14] Most valuable flower asset: " << flowers[maxValIdx].name << " (Total Value: " << maxVal << ")" << endl;
+
     
+
     return 0;
 }
