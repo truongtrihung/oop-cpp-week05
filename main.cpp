@@ -150,7 +150,7 @@ int main() {
 
     cout << endl;
 
-    // === PHẦN BỔ SUNG BÀI 6: ĐẾM TẦN SUẤT XUẤT HIỆN ===
+    // === PHẦN BÀI 6: ĐẾM TẦN SUẤT XUẤT HIỆN ===
     float x;
     int frequency = 0;
 
@@ -162,9 +162,26 @@ int main() {
             frequency++;
         }
     }
-
     cout << "Score " << x << " appears " << frequency << " times." << endl;
         
+    cout << endl;
+
+    // === PHẦN BỔ SUNG BÀI 7: TÌM HỌC SINH TRƯỢT ĐẦU TIÊN ===
+    bool has_failing = false;
+
+    for (int i = 0; i < n; i++) {
+        if (score[i] < 5) {
+            cout << "First failing student:" << endl;
+            cout << "Student " << i + 1 << ": " << score[i] << endl;
+            has_failing = true;
+            break; // Thoát vòng lặp ngay lập tức khi tìm thấy người đầu tiên
+        }
+    }
+
+    if (has_failing == false) {
+        cout << "All students pass!" << endl;
+    }
+
     return 0;
 }
 
