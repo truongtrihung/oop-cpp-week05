@@ -154,6 +154,20 @@ int main() {
     }
 
 
+    string searchName;
+    cout << "\n[Task 9] Enter flower name to search details: ";
+    getline(cin, searchName);
+    bool nameFound = false;
+    for (int i = 0; i < n; i++) {
+        if (toLowercase(flowers[i].name) == toLowercase(searchName)) {
+            cout << "Found!\n  Price: " << flowers[i].price << "\n  Quantity: " << flowers[i].quantity << "\n  Type: " << flowers[i].type << endl;
+            nameFound = true;
+            break;
+        }
+    }
+    if (!nameFound) cout << "Not found!" << endl;
+
+
     
     return 0;
 }
