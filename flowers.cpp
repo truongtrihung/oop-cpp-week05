@@ -308,6 +308,12 @@ int main() {
     }
 
 
-    
+    cout << "\n[Task 20] ===== FINAL SIMPLE REPORT =====" << endl;
+    cout << "Total flower categories : " << n << endl;
+    cout << "Total physical quantity  : " << totalQty << " items" << endl;
+    cout << "Average stock price      : $" << fixed << setprecision(2) << avgPrice << endl;
+    cout << "Total inventory value    : $" << totalValue << endl;
+    cout << "=========================================" << endl;
+
     return 0;
 }
