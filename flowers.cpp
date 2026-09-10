@@ -168,6 +168,19 @@ int main() {
     if (!nameFound) cout << "Not found!" << endl;
 
 
+    string checkName;
+    cout << "\n[Task 10] Enter flower name to check existence: ";
+    getline(cin, checkName);
+    bool exists = false;
+    for (int i = 0; i < n; i++) {
+        if (toLowercase(flowers[i].name) == toLowercase(checkName)) {
+            exists = true;
+            break;
+        }
+    }
+    cout << "Exists: " << (exists ? "Yes" : "No") << endl;
+
+
     
     return 0;
 }
