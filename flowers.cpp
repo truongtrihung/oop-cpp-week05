@@ -242,5 +242,25 @@ int main() {
     }
 
 
+
+    Flower sortedByName[20];
+    for(int i=0; i<n; i++) sortedByName[i] = flowers[i];
+
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (toLowercase(sortedByName[i].name) > toLowercase(sortedByName[j].name)) {
+                Flower temp = sortedByName[i];
+                sortedByName[i] = sortedByName[j];
+                sortedByName[j] = temp;
+            }
+        }
+    }
+    cout << "\n[Task 16] --- FLOWERS SORTED BY NAME (A -> Z) ---" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "  - " << sortedByName[i].name << endl;
+    }
+
+
+    
     return 0;
 }
