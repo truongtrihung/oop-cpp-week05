@@ -97,7 +97,7 @@ int main() {
     
     cout << endl;
 
-    // Count students in a score range 
+    // === PHẦN BÀI 2: ĐẾM HỌC SINH TRONG KHOẢNG ĐIỂM [a, b] ===
     float a, b;
     int count_in_range = 0;
     cout << "Enter minimum score: ";
@@ -114,7 +114,7 @@ int main() {
     
     cout << endl;
 
-    // Find students above average
+    // === PHẦN BÀI 3: TÌM HỌC SINH TRÊN TRUNG BÌNH ===
     float average = sum / n; 
     cout << "Average score: " << average << endl;
     cout << endl;
@@ -128,7 +128,7 @@ int main() {
     
     cout << endl;
 
-    // Search for score
+    // === PHẦN BÀI 5: TÌM KIẾM ĐIỂM SỐ ===
     float score_to_search;
     bool found = false;
 
@@ -147,6 +147,23 @@ int main() {
     if (!found) {
         cout << "No student has this score." << endl;
     }
+
+    cout << endl;
+
+    // === PHẦN BỔ SUNG BÀI 6: ĐẾM TẦN SUẤT XUẤT HIỆN ===
+    float x;
+    int frequency = 0;
+
+    cout << "Enter score: ";
+    cin >> x;
+
+    for (int i = 0; i < n; i++) {
+        if (score[i] == x) {
+            frequency++;
+        }
+    }
+
+    cout << "Score " << x << " appears " << frequency << " times." << endl;
         
     return 0;
 }
