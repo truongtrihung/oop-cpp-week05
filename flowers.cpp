@@ -86,5 +86,14 @@ int main() {
     cout << "\n[Task 2] Most expensive flower: " << flowers[maxPriceIdx].name << " (" << flowers[maxPriceIdx].price << ")" << endl;
 
 
+    int minPriceIdx = 0;
+    for (int i = 1; i < n; i++) {
+        if (flowers[i].price < flowers[minPriceIdx].price) {
+            minPriceIdx = i;
+        }
+    }
+    cout << "[Task 3] Cheapest flower: " << flowers[minPriceIdx].name << " (" << flowers[minPriceIdx].price << ")" << endl;
+
+    
     return 0;
 }
