@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <algorithm>
 
 using namespace std;
+
 
 struct Flower {
     string name;
@@ -11,309 +13,271 @@ struct Flower {
     string type;
 };
 
+
+string toLowercase(string str);
+void clearBuffer();
+
+void inputFlowers(Flower flowers[], int &n);
+void printTable(const Flower flowers[], int n);
+void printBasicStats(const Flower flowers[], int n, int &totalQty, double &avgPrice);
+void processGroupByType(const Flower flowers[], int n);
+void searchTasks(const Flower flowers[], int n);
+void valueAndRangeTasks(const Flower flowers[], int n, double &totalValue);
+void sortingTasks(const Flower flowers[], int n);
+void printFinalReport(int n, int totalQty, double avgPrice, double totalValue);
+
+
+int main() {
+    int n = 0, totalQty = 0;
+    double avgPrice = 0, totalValue = 0;
+    Flower flowers[20];
+
+    inputFlowers(flowers, n);
+    printTable(flowers, n);
+    printBasicStats(flowers, n, totalQty, avgPrice);
+    processGroupByType(flowers, n);
+    searchTasks(flowers, n);
+    valueAndRangeTasks(flowers, n, totalValue);
+    sortingTasks(flowers, n);
+    printFinalReport(n, totalQty, avgPrice, totalValue);
+
+    return 0;
+}
+
+
 string toLowercase(string str) {
-    for (int i = 0; i < str.length(); i++) {
-        if (str[i] >= 'A' && str[i] <= 'Z') {
-            str[i] = str[i] + 32;
-        }
+    for (char &c : str) {
+        if (c >= 'A' && c <= 'Z') c += 32;
     }
     return str;
 }
 
-int main() {
-    int n;
-    Flower flowers[20];
+void clearBuffer() {
+    cin.ignore(10000, '\n');
+}
 
+void inputFlowers(Flower flowers[], int &n) {
     cout << "How many flowers? ";
     cin >> n;
     while (n < 1 || n > 20) {
-        cout << "Invalid number of flowers! Please enter a number from 1 to 20: ";
+        cout << "Invalid! Please enter a number from 1 to 20: ";
         cin >> n;
     }
 
     for (int i = 0; i < n; i++) {
-        cout << "\nFlower " << i + 1 << ":" << endl;
-        cout << "  Name: ";
-        cin.ignore();
+        cout << "\nFlower " << i + 1 << ":\n  Name: ";
+        clearBuffer();
         getline(cin, flowers[i].name);
 
         cout << "  Price: ";
         cin >> flowers[i].price;
         while (flowers[i].price <= 0) {
-            cout << "  Invalid price! Price must be > 0. Re-enter: ";
+            cout << "  Invalid price (> 0)! Re-enter: ";
             cin >> flowers[i].price;
         }
 
         cout << "  Quantity: ";
         cin >> flowers[i].quantity;
         while (flowers[i].quantity < 0) {
-            cout << "  Invalid quantity! Quantity must be >= 0. Re-enter: ";
+            cout << "  Invalid quantity (>= 0)! Re-enter: ";
             cin >> flowers[i].quantity;
         }
 
         cout << "  Type: ";
-        cin.ignore();
+        clearBuffer();
         getline(cin, flowers[i].type);
     }
+}
 
-    cout << "\n[Task 1] ===== FLOWER SHOP =====" << endl;
-    cout << left << setw(5) << "No" << setw(15) << "Name" << setw(10) << "Price" << setw(8) << "Qty" << "Type" << endl;
-    cout << "--------------------------------------------------" << endl;
+// [Task 1]
+void printTable(const Flower flowers[], int n) {
+    cout << "\n[Task 1] ===== FLOWER SHOP =====\n"
+         << left << setw(5) << "No" << setw(15) << "Name" << setw(10) << "Price" << setw(8) << "Qty" << "Type\n"
+         << string(50, '-') << endl;
     for (int i = 0; i < n; i++) {
         cout << left << setw(5) << i + 1 
-        << setw(15) << flowers[i].name 
-        << setw(10) << fixed << setprecision(1) << flowers[i].price 
-        << setw(8) << flowers[i].quantity 
-        << flowers[i].type << endl;
+             << setw(15) << flowers[i].name 
+             << setw(10) << fixed << setprecision(1) << flowers[i].price 
+             << setw(8) << flowers[i].quantity 
+             << flowers[i].type << endl;
     }
+}
 
-    int maxPriceIdx = 0;
-    for (int i = 1; i < n; i++) {
-        if (flowers[i].price > flowers[maxPriceIdx].price) {
-            maxPriceIdx = i;
-        }
-    }
-        
-    cout << "\n[Task 2] Most expensive flower: " << flowers[maxPriceIdx].name << " (" << flowers[maxPriceIdx].price << ")" << endl;
-
-    
-    int maxPriceIdx = 0;
-    for (int i = 1; i < n; i++) {
-        if (flowers[i].price > flowers[maxPriceIdx].price) {
-            maxPriceIdx = i;
-        }
-    }
-    cout << "\n[Task 2] Most expensive flower: " << flowers[maxPriceIdx].name << " (" << flowers[maxPriceIdx].price << ")" << endl;
-
-
-    int minPriceIdx = 0;
-    for (int i = 1; i < n; i++) {
-        if (flowers[i].price < flowers[minPriceIdx].price) {
-            minPriceIdx = i;
-        }
-    }
-    cout << "[Task 3] Cheapest flower: " << flowers[minPriceIdx].name << " (" << flowers[minPriceIdx].price << ")" << endl;
-
-
-    int maxQtyIdx = 0;
-    for (int i = 1; i < n; i++) {
-        if (flowers[i].quantity > flowers[maxQtyIdx].quantity) {
-            maxQtyIdx = i;
-        }
-    }
-    cout << "[Task 4] Flower with largest quantity: " << flowers[maxQtyIdx].name << " (" << flowers[maxQtyIdx].quantity << ")" << endl;
-
-
-    int totalQty = 0;
-    for (int i = 0; i < n; i++) {
-        totalQty += flowers[i].quantity;
-    }
-    cout << "[Task 5] Total quantity of all flowers: " << totalQty << endl;
-
-
+// [Task 2 - 6]
+void printBasicStats(const Flower flowers[], int n, int &totalQty, double &avgPrice) {
+    int maxPIdx = 0, minPIdx = 0, maxQIdx = 0;
+    totalQty = 0;
     double totalPrice = 0;
+
     for (int i = 0; i < n; i++) {
+        if (flowers[i].price > flowers[maxPIdx].price) maxPIdx = i;
+        if (flowers[i].price < flowers[minPIdx].price) minPIdx = i;
+        if (flowers[i].quantity > flowers[maxQIdx].quantity) maxQIdx = i;
+        totalQty += flowers[i].quantity;
         totalPrice += flowers[i].price;
     }
-    double avgPrice = (n > 0) ? (totalPrice / n) : 0;
-    cout << "[Task 6] Average price of flowers: " << fixed << setprecision(1) << avgPrice << endl;
+    avgPrice = (n > 0) ? (totalPrice / n) : 0;
 
+    cout << "\n[Task 2] Most expensive flower: " << flowers[maxPIdx].name << " (" << flowers[maxPIdx].price << ")"
+         << "\n[Task 3] Cheapest flower: " << flowers[minPIdx].name << " (" << flowers[minPIdx].price << ")"
+         << "\n[Task 4] Flower with largest quantity: " << flowers[maxQIdx].name << " (" << flowers[maxQIdx].quantity << ")"
+         << "\n[Task 5] Total quantity of all flowers: " << totalQty
+         << "\n[Task 6] Average price of flowers: " << fixed << setprecision(1) << avgPrice << endl;
+}
 
+// [Task 7 & Task 19]
+void processGroupByType(const Flower flowers[], int n) {
     cout << "\n[Task 7] --- COUNT BY TYPE ---" << endl;
-    string checkedTypes[20];
+    string checked[20];
     int checkedCount = 0;
+
     for (int i = 0; i < n; i++) {
-        bool alreadyCounted = false;
+        bool counted = false;
         for (int j = 0; j < checkedCount; j++) {
-            if (toLowercase(flowers[i].type) == toLowercase(checkedTypes[j])) {
-                alreadyCounted = true;
+            if (toLowercase(flowers[i].type) == toLowercase(checked[j])) {
+                counted = true; 
                 break;
             }
         }
-        if (!alreadyCounted) {
-            int typeCount = 0;
+        if (!counted) {
+            int count = 0, totalQtyType = 0;
             for (int k = 0; k < n; k++) {
                 if (toLowercase(flowers[i].type) == toLowercase(flowers[k].type)) {
-                    typeCount++;
+                    count++;
+                    totalQtyType += flowers[k].quantity;
                 }
             }
-            cout << flowers[i].type << " : " << typeCount << endl;
-            checkedTypes[checkedCount++] = flowers[i].type;
+            cout << flowers[i].type << " : " << count << endl;
+            checked[checkedCount++] = flowers[i].type;
         }
     }
 
+    cout << "\n[Task 19] --- AVERAGE QUANTITY BY TYPE ---" << endl;
+    for (int i = 0; i < checkedCount; i++) {
+        int count = 0, totalQtyType = 0;
+        for (int k = 0; k < n; k++) {
+            if (toLowercase(checked[i]) == toLowercase(flowers[k].type)) {
+                count++;
+                totalQtyType += flowers[k].quantity;
+            }
+        }
+        cout << checked[i] << " : Average Qty = " << fixed << setprecision(1) << (double)totalQtyType / count << endl;
+    }
+}
 
-    string searchType;
+// [Task 8 - 10, Task 18]
+void searchTasks(const Flower flowers[], int n) {
+    string searchStr;
+
+    // Task 8
     cout << "\n[Task 8] Enter flower type to filter: ";
-    getline(cin, searchType);
-    cout << "Flowers of type '" << searchType << "':" << endl;
+    clearBuffer(); 
+    getline(cin, searchStr);
+    cout << "Flowers of type '" << searchStr << "':\n";
     for (int i = 0; i < n; i++) {
-        if (toLowercase(flowers[i].type) == toLowercase(searchType)) {
-            cout << "  - " << flowers[i].name << " (" << flowers[i].price << ")" << endl;
-        }
+        if (toLowercase(flowers[i].type) == toLowercase(searchStr))
+            cout << "  - " << flowers[i].name << " (" << flowers[i].price << ")\n";
     }
 
-
-    string searchName;
+    // Task 9
     cout << "\n[Task 9] Enter flower name to search details: ";
-    getline(cin, searchName);
-    bool nameFound = false;
+    getline(cin, searchStr);
+    bool found = false;
     for (int i = 0; i < n; i++) {
-        if (toLowercase(flowers[i].name) == toLowercase(searchName)) {
+        if (toLowercase(flowers[i].name) == toLowercase(searchStr)) {
             cout << "Found!\n  Price: " << flowers[i].price << "\n  Quantity: " << flowers[i].quantity << "\n  Type: " << flowers[i].type << endl;
-            nameFound = true;
+            found = true; 
             break;
         }
     }
-    if (!nameFound) cout << "Not found!" << endl;
+    if (!found) cout << "Not found!\n";
 
-
-    string checkName;
+    // Task 10
     cout << "\n[Task 10] Enter flower name to check existence: ";
-    getline(cin, checkName);
-    bool exists = false;
+    getline(cin, searchStr);
+    found = false;
     for (int i = 0; i < n; i++) {
-        if (toLowercase(flowers[i].name) == toLowercase(checkName)) {
-            exists = true;
+        if (toLowercase(flowers[i].name) == toLowercase(searchStr)) {
+            found = true; 
             break;
         }
     }
-    cout << "Exists: " << (exists ? "Yes" : "No") << endl;
+    cout << "Exists: " << (found ? "Yes" : "No") << endl;
 
-
-    int lowQtyCount = 0;
+    // Task 18
+    cout << "\n[Task 18] Enter keyword to look up names: ";
+    getline(cin, searchStr);
+    cout << "Flowers containing keyword '" << searchStr << "':\n";
     for (int i = 0; i < n; i++) {
-        if (flowers[i].quantity < 5) {
-            lowQtyCount++;
-        }
+        if (toLowercase(flowers[i].name).find(toLowercase(searchStr)) != string::npos)
+            cout << "  - " << flowers[i].name << endl;
     }
-    cout << "\n[Task 11] Count of flowers with quantity < 5: " << lowQtyCount << endl;
+}
 
+// [Task 11 - 14]
+void valueAndRangeTasks(const Flower flowers[], int n, double &totalValue) {
+    int lowQty = 0, rangeCount = 0, maxValIdx = 0;
+    double minP, maxP, maxVal = flowers[0].price * flowers[0].quantity;
+    totalValue = 0;
 
-    double minP, maxP;
-    cout << "\n[Task 12] Enter minimum price: "; cin >> minP;
-    cout << "Enter maximum price: "; cin >> maxP;
-    cin.ignore();
-    int rangeCount = 0;
     for (int i = 0; i < n; i++) {
-        if (flowers[i].price >= minP && flowers[i].price <= maxP) {
-            rangeCount++;
-        }
-    }
-    cout << "Number of flowers in this price range: " << rangeCount << endl;
-
-
-    double totalValue = 0;
-    for (int i = 0; i < n; i++) {
-        totalValue += (flowers[i].price * flowers[i].quantity);
-    }
-    cout << "\n[Task 13] Total stock value (price * qty) of all flowers: " << totalValue << endl;
-
-
-    int maxValIdx = 0;
-    double maxVal = flowers[0].price * flowers[0].quantity;
-    for (int i = 1; i < n; i++) {
+        if (flowers[i].quantity < 5) lowQty++;
+        
         double currentVal = flowers[i].price * flowers[i].quantity;
+        totalValue += currentVal;
         if (currentVal > maxVal) {
             maxVal = currentVal;
             maxValIdx = i;
         }
     }
-    cout << "[Task 14] Most valuable flower asset: " << flowers[maxValIdx].name << " (Total Value: " << maxVal << ")" << endl;
 
+    cout << "\n[Task 11] Count of flowers with quantity < 5: " << lowQty << endl;
 
-
-    // Sao chép mảng gốc ra mảng tạm để tránh thay đổi trật tự gốc nếu cần dùng sau này
-    Flower sortedByPrice[20];
-    for(int i=0; i<n; i++) sortedByPrice[i] = flowers[i];
-
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if (sortedByPrice[i].price > sortedByPrice[j].price) {
-                Flower temp = sortedByPrice[i];
-                sortedByPrice[i] = sortedByPrice[j];
-                sortedByPrice[j] = temp;
-            }
-        }
+    // Task 12
+    cout << "\n[Task 12] Enter minimum price: "; cin >> minP;
+    cout << "Enter maximum price: "; cin >> maxP;
+    for (int i = 0; i < n; i++) {
+        if (flowers[i].price >= minP && flowers[i].price <= maxP) rangeCount++;
     }
+    cout << "Number of flowers in this price range: " << rangeCount << endl;
+
+    cout << "\n[Task 13] Total stock value (price * qty): " << totalValue
+         << "\n[Task 14] Most valuable flower asset: " << flowers[maxValIdx].name << " (Total Value: " << maxVal << ")" << endl;
+}
+
+// [Task 15 - 17]
+void sortingTasks(const Flower flowers[], int n) {
+    Flower sorted[20];
+
+    // Task 15 & 17: Sắp xếp theo giá tăng dần
+    for (int i = 0; i < n; i++) sorted[i] = flowers[i];
+    sort(sorted, sorted + n, [](const Flower &a, const Flower &b) { return a.price < b.price; });
+
     cout << "\n[Task 15] --- FLOWERS SORTED BY PRICE (ASCENDING) ---" << endl;
-    for (int i = 0; i < n; i++) {
-        cout << "  - " << sortedByPrice[i].name << " : " << sortedByPrice[i].price << endl;
-    }
+    for (int i = 0; i < n; i++) cout << "  - " << sorted[i].name << " : " << sorted[i].price << endl;
 
-
-
-    Flower sortedByName[20];
-    for(int i=0; i<n; i++) sortedByName[i] = flowers[i];
-
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if (toLowercase(sortedByName[i].name) > toLowercase(sortedByName[j].name)) {
-                Flower temp = sortedByName[i];
-                sortedByName[i] = sortedByName[j];
-                sortedByName[j] = temp;
-            }
-        }
-    }
-    cout << "\n[Task 16] --- FLOWERS SORTED BY NAME (A -> Z) ---" << endl;
-    for (int i = 0; i < n; i++) {
-        cout << "  - " << sortedByName[i].name << endl;
-    }
-
-
-    // Dựa trên kết quả đã sắp xếp giảm dần hoặc sử dụng mảng sortedByPrice ở Task 15 đảo ngược lại
     cout << "\n[Task 17] --- TOP 3 MOST EXPENSIVE FLOWERS ---" << endl;
-    int limit = (n < 3) ? n : 3;
-    // Tìm gián tiếp bằng cách lấy từ cuối mảng đã sắp xếp tăng dần ở Task 15
+    int limit = min(n, 3);
     for (int i = 0; i < limit; i++) {
-        cout << "  " << i + 1 << ". " << sortedByPrice[n - 1 - i].name << " (" << sortedByPrice[n - 1 - i].price << ")" << endl;
+        cout << "  " << i + 1 << ". " << sorted[n - 1 - i].name << " (" << sorted[n - 1 - i].price << ")" << endl;
     }
 
+    // Task 16: Sắp xếp theo tên A-Z
+    for (int i = 0; i < n; i++) sorted[i] = flowers[i];
+    sort(sorted, sorted + n, [](const Flower &a, const Flower &b) {
+        return toLowercase(a.name) < toLowercase(b.name);
+    });
 
-    string keyword;
-    cout << "\n[Task 18] Enter keyword to look up names: ";
-    getline(cin, keyword);
-    cout << "Flowers containing keyword '" << keyword << "':" << endl;
-    for (int i = 0; i < n; i++) {
-        if (toLowercase(flowers[i].name).find(toLowercase(keyword)) != string::npos) {
-            cout << "  - " << flowers[i].name << endl;
-        }
-    }
+    cout << "\n[Task 16] --- FLOWERS SORTED BY NAME (A -> Z) ---" << endl;
+    for (int i = 0; i < n; i++) cout << "  - " << sorted[i].name << endl;
+}
 
-
-    cout << "\n[Task 19] --- AVERAGE QUANTITY BY TYPE ---" << endl;
-    string checkedTypes2[20];
-    int checkedCount2 = 0;
-    for (int i = 0; i < n; i++) {
-        bool alreadyCounted = false;
-        for (int j = 0; j < checkedCount2; j++) {
-            if (toLowercase(flowers[i].type) == toLowercase(checkedTypes2[j])) {
-                alreadyCounted = true;
-                break;
-            }
-        }
-        if (!alreadyCounted) {
-            int totalQtyType = 0;
-            int typeCount = 0;
-            for (int k = 0; k < n; k++) {
-                if (toLowercase(flowers[i].type) == toLowercase(flowers[k].type)) {
-                    totalQtyType += flowers[k].quantity;
-                    typeCount++;
-                }
-            }
-            double avgQtyType = (typeCount > 0) ? ((double)totalQtyType / typeCount) : 0;
-            cout << flowers[i].type << " : Average Qty = " << fixed << setprecision(1) << avgQtyType << endl;
-            checkedTypes2[checkedCount2++] = flowers[i].type;
-        }
-    }
-
-
-    cout << "\n[Task 20] ===== FINAL SIMPLE REPORT =====" << endl;
-    cout << "Total flower categories : " << n << endl;
-    cout << "Total physical quantity  : " << totalQty << " items" << endl;
-    cout << "Average stock price      : $" << fixed << setprecision(2) << avgPrice << endl;
-    cout << "Total inventory value    : $" << totalValue << endl;
-    cout << "=========================================" << endl;
-
-    return 0;
+// [Task 20]
+void printFinalReport(int n, int totalQty, double avgPrice, double totalValue) {
+    cout << "\n[Task 20] ===== FINAL SIMPLE REPORT ====="
+         << "\nTotal flower categories : " << n
+         << "\nTotal physical quantity  : " << totalQty << " items"
+         << "\nAverage stock price      : $" << fixed << setprecision(2) << avgPrice
+         << "\nTotal inventory value    : $" << totalValue
+         << "\n=========================================" << endl;
 }
