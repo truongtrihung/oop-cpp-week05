@@ -2,6 +2,7 @@
 using namespace std;
 
 bool checkInputofStudents(int n);
+void printStars(int count); // Hàm bổ trợ in ra số lượng ký tự *
 
 int main() {
     int n;
@@ -41,6 +42,13 @@ int main() {
     float second_max = -1; 
     float min_score = score[0];
 
+    // Khai báo các biến đếm cho biểu đồ phân phối điểm bài 10
+    int dist_0_5 = 0;
+    int dist_5_65 = 0;
+    int dist_65_8 = 0;
+    int dist_8_9 = 0;
+    int dist_9_10 = 0;
+
     cout << "===== CLASSIFICATION =====" << endl;
     for (int i = 0; i < n; i++) {
         cout << "Student " << i + 1 << ": " << score[i] << " -> ";
@@ -49,22 +57,27 @@ int main() {
             cout << "Excellent" << endl;
             pass++;
             excellent++;
+            dist_9_10++; // Tăng khoảng [9, 10]
         }
         else if (score[i] >= 8 && score[i] < 9) {
             cout << "Very Good" << endl;
             pass++;
+            dist_8_9++;  // Tăng khoảng [8, 9)
         }
         else if (score[i] >= 6.5 && score[i] < 8) {
             cout << "Good" << endl;
             pass++;
+            dist_65_8++; // Tăng khoảng [6.5, 8)
         }
         else if (score[i] >= 5 && score[i] < 6.5) {
             cout << "Average" << endl;
             pass++;
+            dist_5_65++; // Tăng khoảng [5, 6.5)
         }
         else { 
             cout << "Fail" << endl;
             fail++;
+            dist_0_5++;  // Tăng khoảng [0, 5)
         }
 
         if (score[i] > max_score) {
@@ -200,7 +213,7 @@ int main() {
 
     cout << endl;
 
-    // === PHẦN BỔ SUNG BÀI 9: TÌM CHUỖI ĐỖ LIÊN TIẾP DÀI NHẤT ===
+    // === PHẦN BÀI 9: TÌM CHUỖI ĐỖ LIÊN TIẾP DÀI NHẤT ===
     int current_streak = 0;
     int max_streak = 0;
 
@@ -211,12 +224,23 @@ int main() {
                 max_streak = current_streak;
             }
         } else {
-            current_streak = 0; // Đứt chuỗi, reset về 0
+            current_streak = 0; 
         }
     }
 
     cout << "Longest pass streak:" << endl;
     cout << max_streak << " students" << endl;
+
+    cout << endl;
+
+    // === PHẦN BỔ SUNG BÀI 10: TẠO BIỂU ĐỒ PHÂN PHỐI ĐIỂM SỐ ===
+    cout << "===== SCORE DISTRIBUTION =====" << endl;
+    
+    cout << "0 - <5   : "; printStars(dist_0_5);  cout << "\t" << dist_0_5 << endl;
+    cout << "5 - <6.5 : "; printStars(dist_5_65); cout << "\t" << dist_5_65 << endl;
+    cout << "6.5 - <8 : "; printStars(dist_65_8); cout << "\t" << dist_65_8 << endl;
+    cout << "8 - <9   : "; printStars(dist_8_9);  cout << "\t" << dist_8_9 << endl;
+    cout << "9 - 10   : "; printStars(dist_9_10); cout << "\t" << dist_9_10 << endl;
 
     return 0;
 }
@@ -226,4 +250,11 @@ bool checkInputofStudents(int n) {
         return true;
     }
     return false;
+}
+
+// Định nghĩa hàm in dấu sao phục vụ bài 10
+void printStars(int count) {
+    for (int i = 0; i < count; i++) {
+        cout << "*";
+    }
 }
