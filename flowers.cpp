@@ -181,6 +181,15 @@ int main() {
     cout << "Exists: " << (exists ? "Yes" : "No") << endl;
 
 
+    int lowQtyCount = 0;
+    for (int i = 0; i < n; i++) {
+        if (flowers[i].quantity < 5) {
+            lowQtyCount++;
+        }
+    }
+    cout << "\n[Task 11] Count of flowers with quantity < 5: " << lowQtyCount << endl;
+
+
     
     return 0;
 }
