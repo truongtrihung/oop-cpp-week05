@@ -270,6 +270,15 @@ int main() {
     }
 
 
-    
+    string keyword;
+    cout << "\n[Task 18] Enter keyword to look up names: ";
+    getline(cin, keyword);
+    cout << "Flowers containing keyword '" << keyword << "':" << endl;
+    for (int i = 0; i < n; i++) {
+        if (toLowercase(flowers[i].name).find(toLowercase(keyword)) != string::npos) {
+            cout << "  - " << flowers[i].name << endl;
+        }
+    }
+
     return 0;
 }
