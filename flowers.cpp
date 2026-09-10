@@ -280,5 +280,34 @@ int main() {
         }
     }
 
+
+    cout << "\n[Task 19] --- AVERAGE QUANTITY BY TYPE ---" << endl;
+    string checkedTypes2[20];
+    int checkedCount2 = 0;
+    for (int i = 0; i < n; i++) {
+        bool alreadyCounted = false;
+        for (int j = 0; j < checkedCount2; j++) {
+            if (toLowercase(flowers[i].type) == toLowercase(checkedTypes2[j])) {
+                alreadyCounted = true;
+                break;
+            }
+        }
+        if (!alreadyCounted) {
+            int totalQtyType = 0;
+            int typeCount = 0;
+            for (int k = 0; k < n; k++) {
+                if (toLowercase(flowers[i].type) == toLowercase(flowers[k].type)) {
+                    totalQtyType += flowers[k].quantity;
+                    typeCount++;
+                }
+            }
+            double avgQtyType = (typeCount > 0) ? ((double)totalQtyType / typeCount) : 0;
+            cout << flowers[i].type << " : Average Qty = " << fixed << setprecision(1) << avgQtyType << endl;
+            checkedTypes2[checkedCount2++] = flowers[i].type;
+        }
+    }
+
+
+    
     return 0;
 }
