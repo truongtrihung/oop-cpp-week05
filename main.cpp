@@ -184,7 +184,7 @@ int main() {
 
     cout << endl;
 
-    // === PHẦN BỔ SUNG BÀI 8: SO SÁNH CÁC HỌC SINH KẾ CẬN ===
+    // === PHẦN BÀI 8: SO SÁNH CÁC HỌC SINH KẾ CẬN ===
     cout << "=== ADJACENT COMPARISON ===" << endl;
     bool has_improvement = false;
     for (int i = 1; i < n; i++) {
@@ -197,6 +197,26 @@ int main() {
     if (!has_improvement) {
         cout << "No student has a higher score than the previous one." << endl;
     }
+
+    cout << endl;
+
+    // === PHẦN BỔ SUNG BÀI 9: TÌM CHUỖI ĐỖ LIÊN TIẾP DÀI NHẤT ===
+    int current_streak = 0;
+    int max_streak = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (score[i] >= 5) {
+            current_streak++;
+            if (current_streak > max_streak) {
+                max_streak = current_streak;
+            }
+        } else {
+            current_streak = 0; // Đứt chuỗi, reset về 0
+        }
+    }
+
+    cout << "Longest pass streak:" << endl;
+    cout << max_streak << " students" << endl;
 
     return 0;
 }
