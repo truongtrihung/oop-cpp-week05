@@ -190,6 +190,19 @@ int main() {
     cout << "\n[Task 11] Count of flowers with quantity < 5: " << lowQtyCount << endl;
 
 
+    double minP, maxP;
+    cout << "\n[Task 12] Enter minimum price: "; cin >> minP;
+    cout << "Enter maximum price: "; cin >> maxP;
+    cin.ignore();
+    int rangeCount = 0;
+    for (int i = 0; i < n; i++) {
+        if (flowers[i].price >= minP && flowers[i].price <= maxP) {
+            rangeCount++;
+        }
+    }
+    cout << "Number of flowers in this price range: " << rangeCount << endl;
+
+
     
     return 0;
 }
