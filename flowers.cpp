@@ -203,6 +203,13 @@ int main() {
     cout << "Number of flowers in this price range: " << rangeCount << endl;
 
 
+    double totalValue = 0;
+    for (int i = 0; i < n; i++) {
+        totalValue += (flowers[i].price * flowers[i].quantity);
+    }
+    cout << "\n[Task 13] Total stock value (price * qty) of all flowers: " << totalValue << endl;
+
+
     
     return 0;
 }
