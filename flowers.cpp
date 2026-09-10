@@ -111,6 +111,14 @@ int main() {
     cout << "[Task 5] Total quantity of all flowers: " << totalQty << endl;
 
 
+    double totalPrice = 0;
+    for (int i = 0; i < n; i++) {
+        totalPrice += flowers[i].price;
+    }
+    double avgPrice = (n > 0) ? (totalPrice / n) : 0;
+    cout << "[Task 6] Average price of flowers: " << fixed << setprecision(1) << avgPrice << endl;
+
+
     
     return 0;
 }
