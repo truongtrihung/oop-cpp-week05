@@ -142,6 +142,18 @@ int main() {
         }
     }
 
+
+    string searchType;
+    cout << "\n[Task 8] Enter flower type to filter: ";
+    getline(cin, searchType);
+    cout << "Flowers of type '" << searchType << "':" << endl;
+    for (int i = 0; i < n; i++) {
+        if (toLowercase(flowers[i].type) == toLowercase(searchType)) {
+            cout << "  - " << flowers[i].name << " (" << flowers[i].price << ")" << endl;
+        }
+    }
+
+
     
     return 0;
 }
