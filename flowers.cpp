@@ -261,6 +261,15 @@ int main() {
     }
 
 
+    // Dựa trên kết quả đã sắp xếp giảm dần hoặc sử dụng mảng sortedByPrice ở Task 15 đảo ngược lại
+    cout << "\n[Task 17] --- TOP 3 MOST EXPENSIVE FLOWERS ---" << endl;
+    int limit = (n < 3) ? n : 3;
+    // Tìm gián tiếp bằng cách lấy từ cuối mảng đã sắp xếp tăng dần ở Task 15
+    for (int i = 0; i < limit; i++) {
+        cout << "  " << i + 1 << ". " << sortedByPrice[n - 1 - i].name << " (" << sortedByPrice[n - 1 - i].price << ")" << endl;
+    }
+
+
     
     return 0;
 }
