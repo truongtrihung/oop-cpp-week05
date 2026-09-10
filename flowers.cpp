@@ -56,17 +56,35 @@ int main() {
         getline(cin, flowers[i].type);
     }
 
-        cout << "\n[Task 1] ===== FLOWER SHOP =====" << endl;
-        cout << left << setw(5) << "No" << setw(15) << "Name" << setw(10) << "Price" << setw(8) << "Qty" << "Type" << endl;
-        cout << "--------------------------------------------------" << endl;
-        for (int i = 0; i < n; i++) {
-            cout << left << setw(5) << i + 1 
-             << setw(15) << flowers[i].name 
-             << setw(10) << fixed << setprecision(1) << flowers[i].price 
-             << setw(8) << flowers[i].quantity 
-             << flowers[i].type << endl;
+    cout << "\n[Task 1] ===== FLOWER SHOP =====" << endl;
+    cout << left << setw(5) << "No" << setw(15) << "Name" << setw(10) << "Price" << setw(8) << "Qty" << "Type" << endl;
+    cout << "--------------------------------------------------" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << left << setw(5) << i + 1 
+        << setw(15) << flowers[i].name 
+        << setw(10) << fixed << setprecision(1) << flowers[i].price 
+        << setw(8) << flowers[i].quantity 
+        << flowers[i].type << endl;
     }
+
+    int maxPriceIdx = 0;
+    for (int i = 1; i < n; i++) {
+        if (flowers[i].price > flowers[maxPriceIdx].price) {
+            maxPriceIdx = i;
+        }
+    }
+        
+    cout << "\n[Task 2] Most expensive flower: " << flowers[maxPriceIdx].name << " (" << flowers[maxPriceIdx].price << ")" << endl;
+
     
+    int maxPriceIdx = 0;
+    for (int i = 1; i < n; i++) {
+        if (flowers[i].price > flowers[maxPriceIdx].price) {
+            maxPriceIdx = i;
+        }
+    }
+    cout << "\n[Task 2] Most expensive flower: " << flowers[maxPriceIdx].name << " (" << flowers[maxPriceIdx].price << ")" << endl;
+
 
     return 0;
 }
