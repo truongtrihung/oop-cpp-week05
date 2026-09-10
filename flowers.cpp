@@ -119,6 +119,29 @@ int main() {
     cout << "[Task 6] Average price of flowers: " << fixed << setprecision(1) << avgPrice << endl;
 
 
+    cout << "\n[Task 7] --- COUNT BY TYPE ---" << endl;
+    string checkedTypes[20];
+    int checkedCount = 0;
+    for (int i = 0; i < n; i++) {
+        bool alreadyCounted = false;
+        for (int j = 0; j < checkedCount; j++) {
+            if (toLowercase(flowers[i].type) == toLowercase(checkedTypes[j])) {
+                alreadyCounted = true;
+                break;
+            }
+        }
+        if (!alreadyCounted) {
+            int typeCount = 0;
+            for (int k = 0; k < n; k++) {
+                if (toLowercase(flowers[i].type) == toLowercase(flowers[k].type)) {
+                    typeCount++;
+                }
+            }
+            cout << flowers[i].type << " : " << typeCount << endl;
+            checkedTypes[checkedCount++] = flowers[i].type;
+        }
+    }
+
     
     return 0;
 }
