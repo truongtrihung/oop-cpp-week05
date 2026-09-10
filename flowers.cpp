@@ -94,7 +94,7 @@ int main() {
     }
     cout << "[Task 3] Cheapest flower: " << flowers[minPriceIdx].name << " (" << flowers[minPriceIdx].price << ")" << endl;
 
-    
+
     int maxQtyIdx = 0;
     for (int i = 1; i < n; i++) {
         if (flowers[i].quantity > flowers[maxQtyIdx].quantity) {
@@ -104,5 +104,13 @@ int main() {
     cout << "[Task 4] Flower with largest quantity: " << flowers[maxQtyIdx].name << " (" << flowers[maxQtyIdx].quantity << ")" << endl;
 
 
+    int totalQty = 0;
+    for (int i = 0; i < n; i++) {
+        totalQty += flowers[i].quantity;
+    }
+    cout << "[Task 5] Total quantity of all flowers: " << totalQty << endl;
+
+
+    
     return 0;
 }
