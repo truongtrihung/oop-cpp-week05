@@ -221,7 +221,26 @@ int main() {
     }
     cout << "[Task 14] Most valuable flower asset: " << flowers[maxValIdx].name << " (Total Value: " << maxVal << ")" << endl;
 
-    
+
+
+    // Sao chép mảng gốc ra mảng tạm để tránh thay đổi trật tự gốc nếu cần dùng sau này
+    Flower sortedByPrice[20];
+    for(int i=0; i<n; i++) sortedByPrice[i] = flowers[i];
+
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (sortedByPrice[i].price > sortedByPrice[j].price) {
+                Flower temp = sortedByPrice[i];
+                sortedByPrice[i] = sortedByPrice[j];
+                sortedByPrice[j] = temp;
+            }
+        }
+    }
+    cout << "\n[Task 15] --- FLOWERS SORTED BY PRICE (ASCENDING) ---" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "  - " << sortedByPrice[i].name << " : " << sortedByPrice[i].price << endl;
+    }
+
 
     return 0;
 }
